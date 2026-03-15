@@ -1,0 +1,5 @@
+<!-- Monologo SVG: check en círculo -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <circle cx="24" cy="24" r="22" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <polyline points="14,26 22,34 36,16" fill="none" stroke="#1976d2" stroke-width="3"/>
+</svg>

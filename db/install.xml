@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/alpysurvey/db" VERSION="2026031500" COMMENT="Esquema de BD para mod_alpysurvey">
+  <TABLES>
+    <TABLE NAME="alpysurvey" COMMENT="Instancia de la actividad ALPY Survey">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="intro" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timeopen" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timeclose" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="grade" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="100"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="coursefk" TYPE="foreign" FIELDS="course" REFTABLE="course" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="alpysurvey_responses" COMMENT="Respuestas de los estudiantes">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="alpysurveyid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="score_d1" TYPE="number" LENGTH="5" DECIMALS="2" NOTNULL="true"/>
+        <FIELD NAME="score_d2" TYPE="number" LENGTH="5" DECIMALS="2" NOTNULL="true"/>
+        <FIELD NAME="score_d3" TYPE="number" LENGTH="5" DECIMALS="2" NOTNULL="true"/>
+        <FIELD NAME="score_total" TYPE="number" LENGTH="5" DECIMALS="2" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="alpysurveyfk" TYPE="foreign" FIELDS="alpysurveyid" REFTABLE="alpysurvey" REFFIELDS="id"/>
+        <KEY NAME="userfk" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="unique_response" UNIQUE="true" FIELDS="alpysurveyid,userid"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="alpysurvey_answers" COMMENT="Respuestas individuales por pregunta">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="responseid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="questionnum" TYPE="int" LENGTH="2" NOTNULL="true"/>
+        <FIELD NAME="answervalue" TYPE="int" LENGTH="2" NOTNULL="false"/>
+        <FIELD NAME="answertext" TYPE="char" LENGTH="255" NOTNULL="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="responsefk" TYPE="foreign" FIELDS="responseid" REFTABLE="alpysurvey_responses" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="unique_answer" UNIQUE="true" FIELDS="responseid,questionnum"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
